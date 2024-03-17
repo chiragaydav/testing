@@ -16,7 +16,7 @@ if (!fs.existsSync(downloadsFolder)) {
   fs.mkdirSync(downloadsFolder);
 }
 
-app.use(cors({ origin: 'http://127.0.0.1:5500' }));
+app.use(cors({ origin: 'https://youtubetomp3hub.com' }));
 app.use(bodyParser.json());
 
 const videoTitles = {};
