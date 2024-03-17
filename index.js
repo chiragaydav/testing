@@ -9,7 +9,7 @@ const { promisify } = require('util');
 const pipeline = promisify(require('stream').pipeline);
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000; // Use environment variable for port or default to 3000
 const downloadsFolder = path.join(__dirname, 'downloads');
 
 if (!fs.existsSync(downloadsFolder)) {
@@ -33,7 +33,7 @@ app.post('/fetch_info', async (req, res) => {
     const normalizedTitle = title.replace(/[^a-zA-Z0-9 ]/g, "").replace(/\s+/g, "_");
     videoTitles[video_id] = `${normalizedTitle}.mp3`;
 
-    const downloadLink = `http://localhost:${port}/download_mp3?video_id=${video_id}`;
+    const downloadLink = `${req.protocol}://${req.get('host')}/download_mp3?video_id=${video_id}`;
 
     const audioInfo = {
       title: title,
@@ -97,5 +97,5 @@ function serveFile(req, res, filepath) {
 }
 
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}/`);
+  console.log(`Server is running on port ${port}`);
 });
